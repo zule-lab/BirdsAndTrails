@@ -3,7 +3,7 @@ title: "Model Diagnostics"
 format:
   html:
     embed-resources: true
-    fig-width: 14
+    fig-width: 16
     fig-height: 14
   pdf:
     fig-width: 12
