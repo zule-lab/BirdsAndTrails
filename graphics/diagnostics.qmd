@@ -1,0 +1,70 @@
+---
+title: "Model Diagnostics"
+format:
+  html:
+    embed-resources: true
+    fig-width: 14
+    fig-height: 14
+  pdf:
+    fig-width: 12
+    fig-height: 14
+---
+
+Chloe A. Cull, Mackenzie Guest, Isabella C. Richmond, Ana Morales, Carly D. Ziter, Barbara Frei 
+
+
+
+```{r}
+#| label: setup
+#| include: false
+
+
+knitr::opts_chunk$set(echo = F)
+options(tidyverse.quiet = T)
+
+library(targets)
+tar_source('R')
+```
+
+# Model Results
+
+## Model 1: distance from trail + management 
+
+The models contained both distance from trail (close vs far) and park management (formal vs informal): 
+
+$$
+y_i \sim \beta_0 + far_i*\beta_{far} + informal_i*\beta_{informal} + \epsilon_i
+$$
+$y_i$ was modelled as both species richness and Shannon. 
+
+### Species Richness
+
+```{r}
+#| label: dist-sr
+
+tar_load(SR_dist_model)
+
+check_model(SR_dist_model)
+```
+
+### Shannon 
+
+```{r}
+#| label: dist-shan
+
+tar_load(shan_dist_model)
+
+check_model(shan_dist_model)
+```
+
+## Vegetation 
+
+### Species Richness
+
+### Shannon 
+
+## Trail use 
+
+### Species Richness
+
+### Shannon 

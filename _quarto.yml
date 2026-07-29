@@ -1,0 +1,9 @@
+project:
+  execute-dir: project
+
+format:
+  html:
+    toc: true
+    toc-location: right
+    toc-depth: 3
+    self-contained: true
