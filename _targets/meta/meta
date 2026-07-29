@@ -1,0 +1,7 @@
+name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
+gentry_raw_file|stem|bcd5ac691c7264d9|bd7bfccf05742e6e|2c530c1562a7fbd1|-166933404|input/gentry_transects.csv|t20649.5225912604s|s47509b|47509|file|local|vector|||0.001||
+gentry_raw|stem|742cb68bde0617d5|231888572d4ed798|f8b931d758b48015|-1786888371||t20656.6627865425s|s6731b|6731|qs|local|vector|||0.004||
+quadrats_raw_file|stem|b97dd0bdaa855163|b27d41f0431f2af2|2c530c1562a7fbd1|-828735454|input/quadrats.csv|t20649.5332851184s|s35883b|35883|file|local|vector|||0.001||
+birds_raw_file|stem|b65ebef960c97172|de57faca73dcfa14|2c530c1562a7fbd1|-1380344593|input/breeding_birds.csv|t20649.5227904258s|s26976b|26976|file|local|vector|||0.001||
+quadrats_raw|stem|e1c8d1230a460379|d6f26cecd01749be|c62e2fdbf6bc2d89|-673041012||t20656.6642970393s|s5260b|5260|qs|local|vector|||0.005||
+birds_raw|stem|7c42316cedd3ad19|323886474027e0a9|18edcd9ede262ce8|-911560456||t20656.6642976875s|s2046b|2046|qs|local|vector|||0.004||
