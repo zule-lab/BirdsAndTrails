@@ -30,9 +30,20 @@ c(
     read.csv(!!.x)
   ),
 
+  tar_file_read(
+    activity_raw,
+    'input/people.csv',
+    read.csv(!!.x)
+  ),
+
   tar_target(
     bird_div,
     calc_bird_div(birds_raw)
+  ),
+
+  tar_target(
+    full_data,
+    calc_full_data(bird_div, quadrats_raw, activity_raw)
   ),
 
   tar_target(
