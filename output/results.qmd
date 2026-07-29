@@ -4,13 +4,13 @@ format:
   html:
     embed-resources: true
     fig-width: 14
-    fig-height: 14
+    fig-height: 12
   pdf:
     fig-width: 12
     fig-height: 14
 ---
 
-Chloe A. Cull, Mackenzie Guest, Isabella C. Richmond, Ana Morales, Carly D. Ziter, Barbara Frei 
+Chloe A. Cull, Mackenzie Guest, Isabella C. Richmond, Ana Morales, Carly D. Ziter, Barbara Frei
 
 ```{r}
 #| label: setup
@@ -24,15 +24,23 @@ library(targets)
 tar_source('R')
 ```
 
+::: callout-tip
+## Main Takeaways
+
+-   SR & Shannon higher in informal sites
+
+-   SR & Shannon higher further from trails
+:::
+
 # Model Results
 
-## Model 1: distance from trail + greenspace management 
+## Model 1: distance from trail + greenspace management
 
-The first model includes both distance from trail and management. It does not include an interaction in the statistical analysis due to small sample size but a plot is included for context. 
+The first model includes both distance from trail and management. It does not include an interaction in the statistical analysis due to small sample size but a plot is included for context.
 
-### Species Richness 
+### Species Richness
 
-Model summary: 
+Model summary:
 
 ```{r}
 #| label: sr-dist-summary
@@ -43,9 +51,7 @@ tbl_regression(SR_dist_model, label = list(form = "Management", dist = "Distance
 
 ```
 
-
-
-Visualization: 
+Visualization:
 
 ```{r}
 #| label: sr-dist-plot
@@ -77,9 +83,9 @@ i <- ggplot(data = sr, aes(x = form, y = val, colour = dist)) +
 
 ```
 
-### Shannon 
+### Shannon
 
-Model summary: 
+Model summary:
 
 ```{r}
 #| label: shan-dist-summary
@@ -90,8 +96,8 @@ tbl_regression(shan_dist_model, label = list(form = "Management", dist = "Distan
 
 ```
 
+Visualization:
 
-Visualization: 
 ```{r}
 #| label: shan-dist-plot
 
@@ -122,6 +128,6 @@ i <- ggplot(data = sh, aes(x = form, y = val, colour = dist)) +
 
 ```
 
-## Vegetation 
+## Vegetation
 
-## Trail use 
+## Trail use
