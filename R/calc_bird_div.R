@@ -1,16 +1,19 @@
 calc_bird_div <- function(birds_raw) {
+
   # collapse distance categories
   b_s <- birds_raw %>%
     rowwise() %>%
-  	mutate(X25. = sum(X25.50, X50., na.rm = T)) %>%
-    select(c(Transect, Species, X0.25, X25.))
+  	mutate(Transect = str_trim(Transect),
+  				 X25. = sum(X25.50, X50., na.rm = T)) %>%
+    select(c(Transect, Species, Date, X0.25, X25.))
 
-  # calculate diversity metrics
+
+  # filter for date with highest detection for each species
   b_close <- b_s %>%
     select(c(Transect, Species, X0.25)) %>%
     group_by(Transect, Species) %>%
     summarize(X0.25 = sum(X0.25)) %>%
-    pivot_wider(
+  	pivot_wider(
       id_cols = Transect,
       names_from = Species,
       values_from = X0.25
@@ -69,20 +72,20 @@ calc_bird_div <- function(birds_raw) {
       values_to = 'val'
     ) %>%
     separate_wider_delim(dist, names = c('div', 'dist'), delim = '_') %>%
-  	mutate(site = case_when(site == "ARBO-01" ~ "ARBO_S1",
-  													site == "ARBO-02" ~ "ARBO_L1",
-  													site == "ARBO-03" ~ "ARBO_L2",
-  													site == "ARBO-04" ~ "ARBO_S2",
-  													site == "BDL-1" ~ "BDL_S2",
-  													site == "BDL-2" ~ "BDL_L1",
-  													site == "BDL-3" ~ "BDL_S1",
-  													site == "BDL-4"~ "BDL_L2",
-  													site == "STNY-01" ~ "STNY_L1",
-  													site == "STNY-02" ~ "STNY_L2",
-  													site == "STNY-03" ~ "STNY_S1",
-  													site == "STNY-04" ~ "STNY_S2",
-  													site == "TECHNO-1" ~ "TECHNO_L1",
-  													site == "TECHNO-2" ~ "TECHNO_S1",
-  													site == "TECHNO-3" ~ "TECHNO_L2",
-  													site == "TECHNO-4" ~ "TECHNO_S2"))
+  	mutate(site = case_when(site == "ARBO-01" ~ "ARBOS1",
+  													site == "ARBO-02" ~ "ARBOL1",
+  													site == "ARBO-03" ~ "ARBOL2",
+  													site == "ARBO-04" ~ "ARBOS2",
+  													site == "BDL-1" ~ "BDLS2",
+  													site == "BDL-2" ~ "BDLL1",
+  													site == "BDL-3" ~ "BDLS1",
+  													site == "BDL-4"~ "BDLL2",
+  													site == "STNY-01" ~ "STNYL1",
+  													site == "STNY-02" ~ "STNYL2",
+  													site == "STNY-03" ~ "STNYS1",
+  													site == "STNY-04" ~ "STNYS2",
+  													site == "TECHNO-1" ~ "TECHL1",
+  													site == "TECHNO-2" ~ "TECHS1",
+  													site == "TECHNO-3" ~ "TECHL2",
+  													site == "TECHNO-4" ~ "TECHS2"))
 }
