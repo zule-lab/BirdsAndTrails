@@ -1,6 +1,7 @@
 library(targets)
 library(tarchetypes)
 library(qs2)
+library(see)
 
 library(pak)
 
@@ -14,5 +15,7 @@ library(vegan)
 
 library(performance)
 library(gtsummary)
+library(broom)
+library(broom.helpers)
 
 library(patchwork)
