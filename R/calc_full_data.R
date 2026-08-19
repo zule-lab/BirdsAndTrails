@@ -9,11 +9,11 @@ calc_full_data <- function(bird_div, quadrats_raw, activity_raw) {
 
 	# calculate stem density
 	dens <- quadrats_raw %>%
-		select(c(ID, Tally, X..)) %>%
-		group_by(ID, X..) %>%
+		select(c(ID, Tally, distance)) %>%
+		group_by(ID, distance) %>%
+		# quadrats are 4 m2
 		summarize(stem_dens = sum(Tally)/4) %>%
 		separate_wider_delim(ID, delim = "_", names = c("site", "transect", "gentry", "quadrat") ) %>%
-		rename(distance = X..) %>%
 		mutate(distance = case_when(quadrat == 1 ~ "far",
 																quadrat == 2 ~ "mid",
 																quadrat == 3 ~ "close"),
