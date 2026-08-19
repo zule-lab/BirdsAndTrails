@@ -13,9 +13,11 @@ library(ggplot2)
 
 library(vegan)
 
+library(lme4)
 library(performance)
 library(gtsummary)
 library(broom)
 library(broom.helpers)
+library(broom.mixed)
 
 library(patchwork)
