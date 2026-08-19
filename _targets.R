@@ -48,12 +48,12 @@ c(
 
   tar_target(
     SR_dist_model,
-    lm(val ~ form + dist, data = bird_div %>% filter(div == "SR"))
+    lmer(SR ~ form + distance + (1 | Park), data = full_data)
   ),
 
   tar_target(
     shan_dist_model,
-    lm(val ~ form + dist, data = bird_div %>% filter(div == "Shan"))
+    lmer(Shan ~ form + distance + (1 | Park), data = full_data)
   ),
 
   tar_render(
