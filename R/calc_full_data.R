@@ -23,6 +23,7 @@ calc_full_data <- function(bird_div, quadrats_raw, activity_raw) {
 																distance == "far" ~ "far")) %>%
 		group_by(site, transect, distance) %>%
 		summarize(stem_dens = mean(stem_dens, na.rm = T)) %>%
+		mutate(Park = site) %>%
 		unite("Trail_ID", c("site", "transect"), sep = "")
 
 	bird_wide <- bird_div %>%
