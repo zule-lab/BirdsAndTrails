@@ -8,11 +8,13 @@ calc_bird_div <- function(birds_raw) {
     select(c(Transect, Species, Date, X0.25, X25.))
 
 
+
   # filter for date with highest detection for each species
   b_close <- b_s %>%
     select(c(Transect, Species, X0.25)) %>%
     group_by(Transect, Species) %>%
-    summarize(X0.25 = sum(X0.25)) %>%
+  	top_n(1, X0.25) %>%
+  	unique() %>%
   	pivot_wider(
       id_cols = Transect,
       names_from = Species,
@@ -31,8 +33,9 @@ calc_bird_div <- function(birds_raw) {
 
   b_far <- b_s %>%
     select(c(Transect, Species, X25.)) %>%
-    group_by(Transect, Species) %>%
-    summarize(X25. = sum(X25.)) %>%
+  	group_by(Transect, Species) %>%
+  	top_n(1, X25.) %>%
+  	unique() %>%
     pivot_wider(
       id_cols = Transect,
       names_from = Species,
