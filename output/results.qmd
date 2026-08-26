@@ -11,7 +11,7 @@ format:
 ---
 
 Chloe A. Cull, Mackenzie Guest, Isabella C. Richmond, Ana Morales, Carly D. Ziter, Barbara Frei
-
+add_p
 ```{r}
 #| label: setup
 #| include: false
@@ -22,6 +22,8 @@ options(tidyverse.quiet = T)
 
 library(targets)
 tar_source('R')
+
+tar_load(full_data)
 ```
 
 ::: callout-tip
@@ -47,7 +49,11 @@ Model summary:
 
 tar_load(SR_dist_model)
 
-tbl_regression(SR_dist_model, label = list(form = "Management", dist = "Distance From Trail"))
+tbl_regression(SR_dist_model, label = list(form = "Management", distance = "Distance From Trail", 
+																					 `Park.sd__(Intercept)` = "Random Effect: Park (Std Dev)",
+																					 `Residual.sd__(Observation)` = "Random Effect: Residual (Std Dev)"),
+							 pvalue_fun = label_style_pvalue(digits = 2),
+							 tidy_fun = broom.mixed::tidy)
 
 ```
 
@@ -92,8 +98,11 @@ Model summary:
 
 tar_load(shan_dist_model)
 
-tbl_regression(shan_dist_model, label = list(form = "Management", dist = "Distance From Trail") )
-
+tbl_regression(shan_dist_model, label = list(form = "Management", distance = "Distance From Trail", 
+																					 `Park.sd__(Intercept)` = "Random Effect: Park (Std Dev)",
+																					 `Residual.sd__(Observation)` = "Random Effect: Residual (Std Dev)"),
+							 pvalue_fun = label_style_pvalue(digits = 2),
+							 tidy_fun = broom.mixed::tidy)
 ```
 
 Visualization:
@@ -130,4 +139,120 @@ i <- ggplot(data = sh, aes(x = form, y = val, colour = dist)) +
 
 ## Vegetation
 
+The second model includes stem density and the interaction between stem density and distance from trail.
+
+### Species Richness
+
+
+```{r}
+#| label: sr-veg-summary
+
+tar_load(SR_veg_model)
+
+tbl_regression(SR_veg_model, label = list(stemdens = "Stem Density (stems/m2)", distance = "Distance From Trail", 
+																					 `Park.sd__(Intercept)` = "Random Effect: Park (Std Dev)",
+																					 `Residual.sd__(Observation)` = "Random Effect: Residual (Std Dev)"),
+							 pvalue_fun = label_style_pvalue(digits = 2),
+							 tidy_fun = broom.mixed::tidy)
+
+```
+
+```{r}
+#| label: sr-veg-plot
+#| warning: false
+#| message: false
+
+stemdens <- interaction_plot(SR_veg_model, 'stem_dens', x = stem_dens, y = SR, dat = full_data, xlab = 'Stem Density (stems/m2)', ylab = 'Species Richness')
+
+stemdens_dist <- interaction_plot(SR_veg_model, c('stem_dens', 'distance'), colour = distance, x = stem_dens, y = SR, dat = full_data, xlab = 'Stem Density (stems/m2)', ylab = 'Species Richness')
+
+stemdens | stemdens_dist
+
+```
+
+### Shannon
+
+```{r}
+#| label: shan-veg-summary
+
+tar_load(shan_veg_model)
+
+tbl_regression(shan_veg_model, label = list(stemdens = "Stem Density (stems/m2)", distance = "Distance From Trail", 
+																					 `Park.sd__(Intercept)` = "Random Effect: Park (Std Dev)",
+																					 `Residual.sd__(Observation)` = "Random Effect: Residual (Std Dev)"),
+							 pvalue_fun = label_style_pvalue(digits = 2),
+							 tidy_fun = broom.mixed::tidy)
+
+```
+
+```{r}
+#| label: shan-veg-plot
+#| warning: false
+#| message: false
+
+stemdens_s <- interaction_plot(shan_veg_model, 'stem_dens', x = stem_dens, y = Shan, dat = full_data, xlab = 'Stem Density (stems/m2)', ylab = 'Shannon Diversity')
+
+stemdens_dist_s <- interaction_plot(shan_veg_model, c('stem_dens', 'distance'), colour = distance, x = stem_dens, y = Shan, dat = full_data, xlab = 'Stem Density (stems/m2)', ylab = 'Shannon Diversity')
+
+stemdens_s | stemdens_dist_s
+```
+
 ## Trail use
+
+The third model includes human activity and the interaction between human activity and distance from trail.
+
+### Species Richness 
+
+```{r}
+#| label: sr-act-summary
+
+tar_load(SR_act_model)
+
+tbl_regression(SR_act_model, label = list(avg_activity = "Human Activity",
+																					distance = "Distance From Trail", 
+																					 `Park.sd__(Intercept)` = "Random Effect: Park (Std Dev)",
+																					 `Residual.sd__(Observation)` = "Random Effect: Residual (Std Dev)"),
+							 pvalue_fun = label_style_pvalue(digits = 2),
+							 tidy_fun = broom.mixed::tidy)
+
+```
+
+```{r}
+#| label: sr-act-plot
+#| warning: false
+#| message: false
+
+act <- interaction_plot(SR_act_model, 'avg_activity', x = avg_activity, y = SR, dat = full_data, xlab = 'Human Activity (mean number of people/hr)', ylab = 'Species Richness')
+
+act_dist <- interaction_plot(SR_act_model, c('avg_activity', 'distance'), colour = distance, x = avg_activity, y = SR, dat = full_data, xlab = 'Human Activity (mean number of people/hr)', ylab = 'Species Richness')
+
+act | act_dist
+```
+
+### Shannon
+
+```{r}
+#| label: shan-act-summary
+
+tar_load(shan_act_model)
+
+tbl_regression(shan_act_model, label = list(avg_activity = "Human Activit", 
+																						distance = "Distance From Trail", 
+																					 `Park.sd__(Intercept)` = "Random Effect: Park (Std Dev)",
+																					 `Residual.sd__(Observation)` = "Random Effect: Residual (Std Dev)"),
+							 pvalue_fun = label_style_pvalue(digits = 2),
+							 tidy_fun = broom.mixed::tidy)
+
+```
+
+```{r}
+#| label: shan-act-plot
+#| warning: false
+#| message: false
+
+act_s <- interaction_plot(shan_act_model, 'avg_activity', x = avg_activity, y = Shan, dat = full_data, xlab = 'Human Activity (mean number of people/hr)', ylab = 'Shannon Diversity')
+
+act_dist_s <- interaction_plot(shan_act_model, c('avg_activity', 'distance'), colour = distance, x = avg_activity, y = Shan, dat = full_data, xlab = 'Human Activity (mean number of people/hr)', ylab = 'Shannon Diversity')
+
+act_s | act_dist_s
+```
