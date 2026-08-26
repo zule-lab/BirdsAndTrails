@@ -56,6 +56,26 @@ c(
     lmer(Shan ~ form + distance + (1 | Park), data = full_data)
   ),
 
+  tar_target(
+  	SR_veg_model,
+  	lmer(SR ~ stem_dens + stem_dens:distance + (1 | Park), data = full_data)
+  ),
+
+  tar_target(
+  	shan_veg_model,
+  	lmer(Shan ~ stem_dens + stem_dens:distance + (1 | Park), data = full_data)
+  ),
+
+  tar_target(
+  	SR_act_model,
+  	lmer(SR ~ avg_activity + avg_activity:distance + (1 | Park), data = full_data)
+  ),
+
+  tar_target(
+  	shan_act_model,
+  	lmer(Shan ~ avg_activity + avg_activity:distance + (1 | Park), data = full_data)
+  ),
+
   tar_render(
     residuals,
     'graphics/diagnostics.qmd'
