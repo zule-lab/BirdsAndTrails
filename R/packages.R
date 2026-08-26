@@ -14,6 +14,8 @@ library(ggplot2)
 library(vegan)
 
 library(lme4)
+library(lmerTest)
+library(marginaleffects)
 library(performance)
 library(gtsummary)
 library(broom)
