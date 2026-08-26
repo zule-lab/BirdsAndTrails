@@ -5,14 +5,9 @@ format:
     embed-resources: true
     fig-width: 16
     fig-height: 14
-  pdf:
-    fig-width: 12
-    fig-height: 14
 ---
 
-Chloe A. Cull, Mackenzie Guest, Isabella C. Richmond, Ana Morales, Carly D. Ziter, Barbara Frei 
-
-
+Chloe A. Cull, Mackenzie Guest, Isabella C. Richmond, Ana Morales, Carly D. Ziter, Barbara Frei
 
 ```{r}
 #| label: setup
@@ -28,14 +23,25 @@ tar_source('R')
 
 # Model Results
 
-## Model 1: distance from trail + management 
+## Model 1: distance from trail + management
 
-The models contained both distance from trail (close vs far) and park management (formal vs informal): 
+The models contained both distance from trail (close vs far) and park management (formal vs informal):
 
-$$
-y_i \sim \beta_0 + far_i*\beta_{far} + informal_i*\beta_{informal} + \epsilon_i
-$$
-$y_i$ was modelled as both species richness and Shannon. 
+$$y_i \sim \alpha_{park} + \beta_0 +  far_i*\beta_{far} + informal_i*\beta_{informal} + \epsilon_i$$
+
+- $y_i$ was modelled as both species richness and Shannon.
+
+<!-- -->
+
+- $\alpha$ and $\beta_0$ both represent intercepts, $\alpha$ is used for random effects and $\beta_0$ for fixed effects
+
+- Parkrepresents the park where the measurements took place
+
+- Far represents one of the distance categories from the trail (i.e., close vs far)
+
+- Informal represents one of the management categories (i.e., formal vs informal)
+
+- $\epsilon_i$ represents residual error
 
 ### Species Richness
 
@@ -47,7 +53,7 @@ tar_load(SR_dist_model)
 check_model(SR_dist_model)
 ```
 
-### Shannon 
+### Shannon
 
 ```{r}
 #| label: dist-shan
@@ -57,14 +63,78 @@ tar_load(shan_dist_model)
 check_model(shan_dist_model)
 ```
 
-## Vegetation 
+## Model 2: stem density
+
+The models contained both stem density and the interaction between distance to trail and average trail activity:
+
+$$y_i \sim \alpha_{park} + \gamma_{distance} + stem \ dens_i*\beta_{stem \ dens} + stem \ dens_i*\beta_{distance} + \epsilon_i$$
+
+- $y_i$ was modelled as both species richness and Shannon.
+
+- $\alpha$ and $\gamma$ both represent intercepts, $\alpha$ is used for random effects and $\gamma$ for fixed interaction effects
+
+- Park represents the park where the measurements took place
+
+- Distance represents the distance from the trail (i.e., close vs far)
+
+- Stem dens represents the stem density of the transect
+
+- $\epsilon_i$ represents residual error
 
 ### Species Richness
 
-### Shannon 
+```{r}
+#| label: veg-sr
 
-## Trail use 
+tar_load(SR_veg_model)
+
+check_model(SR_veg_model)
+```
+
+### Shannon
+
+```{r}
+#| label: veg-shan
+
+tar_load(shan_veg_model)
+
+check_model(shan_veg_model)
+```
+
+## Model 3: trail activity
+
+The models contained both average trail activity and the interaction between distance to trail and average trail activity:
+
+$$y_i \sim \alpha_{park} + \gamma_{distance} + activity_i*\beta_{activity} + activity_i*\beta_{distance} + \epsilon_i$$
+
+- $y_i$ was modelled as both species richness and Shannon.
+
+- $\alpha$ and $\gamma$ both represent intercepts, $\alpha$ is used for random effects and $\gamma$ for fixed interaction effects
+
+- Park represents the park where the measurements took place
+
+- Distance represents the distance from the trail (i.e., close vs far)
+
+- Activity represents the average human activity level on the trail 
+
+- $\epsilon_i$ represents residual error
 
 ### Species Richness
 
-### Shannon 
+```{r}
+#| label: act-sr
+
+tar_load(SR_act_model)
+
+check_model(SR_act_model)
+```
+
+### Shannon
+
+```{r}
+#| label: act-shan
+
+tar_load(shan_act_model)
+
+check_model(shan_act_model)
+```
