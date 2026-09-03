@@ -3,9 +3,7 @@ title: "Bird diversity and community varies with proximity to trails in urban an
 format:
   html:
     embed-resources: true
-    fig-width: 14
-    fig-height: 12
-  pdf:
+  docx:
     fig-width: 12
     fig-height: 14
 ---
@@ -40,20 +38,26 @@ tar_load(full_data)
 
 The first model includes both distance from trail and management. It does not include an interaction in the statistical analysis due to small sample size but a plot is included for context.
 
-### Species Richness
-
 Model summary:
 
 ```{r}
 #| label: sr-dist-summary
 
 tar_load(SR_dist_model)
+tar_load(shan_dist_model)
 
-tbl_regression(SR_dist_model, label = list(form = "Management", distance = "Distance From Trail", 
-																					 `Park.sd__(Intercept)` = "Random Effect: Park (Std Dev)",
-																					 `Residual.sd__(Observation)` = "Random Effect: Residual (Std Dev)"),
-							 pvalue_fun = label_style_pvalue(digits = 2),
-							 tidy_fun = broom.mixed::tidy)
+modelsummary(list("Species Richness" = SR_dist_model, "Shannon Diversity" = shan_dist_model),
+             fmt = NULL,
+             estimate = "{signif(estimate, 2)}",
+             exponentiate = c(FALSE, FALSE), 
+             statistic = c("CI" = "({signif(conf.low, 2)}, {signif(conf.high, 2)})", 
+                           "t-statistic" =  "{signif(statistic, 2)}", 
+                           "p-value" = "{signif(p.value, 1)}"),
+             conf_level = .95,
+             gof_map = c("adj.r.squared", "adj.r.squared"),
+             coef_rename = c("forminformal" = "Informal",
+                             "distancefar" = "Far from trail"))
+
 
 ```
 
@@ -64,6 +68,7 @@ Visualization:
 
 tar_load(bird_div)
 sr <- bird_div %>% filter(div == "SR")
+sh <- bird_div %>% filter(div == "Shan")
 
 d <- ggplot(data = sr, aes(x = dist, y = val)) + 
 	geom_boxplot(outlier.shape = NA) + 
@@ -77,83 +82,49 @@ m <- ggplot(data = sr, aes(x = form, y = val)) +
 	labs(x = "", y = "Species Richness") + 
 	theme_classic()
 
-i <- ggplot(data = sr, aes(x = form, y = val, colour = dist)) + 
-	geom_boxplot(outlier.shape = NA) + 
-	geom_point(position = position_jitterdodge()) + 
-	labs(x = "", y = "Species Richness", colour = "") + 
-	theme_classic() + 
-	theme(legend.position = 'top') + 
-	scale_color_viridis_d(end = 0.5)
 
-(d / m) | i
-
-```
-
-### Shannon
-
-Model summary:
-
-```{r}
-#| label: shan-dist-summary
-
-tar_load(shan_dist_model)
-
-tbl_regression(shan_dist_model, label = list(form = "Management", distance = "Distance From Trail", 
-																					 `Park.sd__(Intercept)` = "Random Effect: Park (Std Dev)",
-																					 `Residual.sd__(Observation)` = "Random Effect: Residual (Std Dev)"),
-							 pvalue_fun = label_style_pvalue(digits = 2),
-							 tidy_fun = broom.mixed::tidy)
-```
-
-Visualization:
-
-```{r}
-#| label: shan-dist-plot
-
-tar_load(bird_div)
-sh <- bird_div %>% filter(div == "Shan")
-
-d <- ggplot(data = sh, aes(x = dist, y = val)) + 
+d_sh <- ggplot(data = sh, aes(x = dist, y = val)) + 
 	geom_boxplot(outlier.shape = NA) + 
 	geom_jitter() + 
 	labs(x = "", y = "Shannon") + 
 	theme_classic()
 
-m <- ggplot(data = sh, aes(x = form, y = val)) + 
+m_sh <- ggplot(data = sh, aes(x = form, y = val)) + 
 	geom_boxplot(outlier.shape = NA) + 
 	geom_jitter() + 
 	labs(x = "", y = "Shannon") + 
 	theme_classic()
 
-i <- ggplot(data = sh, aes(x = form, y = val, colour = dist)) + 
-	geom_boxplot(outlier.shape = NA) + 
-	geom_point(position = position_jitterdodge()) + 
-	labs(x = "", y = "Shannon", colour = "") + 
-	theme_classic() + 
-	theme(legend.position = 'top') + 
-	scale_color_viridis_d(end = 0.5)
-
-(d / m) | i
+(d | m) / (d_sh | m_sh) + plot_annotation(tag_levels = 'a') + plot_layout(guides = 'collect')
 
 ```
+
+
 
 ## Vegetation
 
 The second model includes stem density and the interaction between stem density and distance from trail.
-
-### Species Richness
 
 
 ```{r}
 #| label: sr-veg-summary
 
 tar_load(SR_veg_model)
+tar_load(shan_veg_model)
 
-tbl_regression(SR_veg_model, label = list(stemdens = "Stem Density (stems/m2)", distance = "Distance From Trail", 
-																					 `Park.sd__(Intercept)` = "Random Effect: Park (Std Dev)",
-																					 `Residual.sd__(Observation)` = "Random Effect: Residual (Std Dev)"),
-							 pvalue_fun = label_style_pvalue(digits = 2),
-							 tidy_fun = broom.mixed::tidy)
+
+modelsummary(list("Species Richness" = SR_veg_model, "Shannon Diversity" = shan_veg_model),
+             fmt = NULL,
+             estimate = "{signif(estimate, 2)}",
+             exponentiate = c(FALSE, FALSE), 
+             statistic = c("CI" = "({signif(conf.low, 2)}, {signif(conf.high, 2)})", 
+                           "t-statistic" =  "{signif(statistic, 2)}", 
+                           "p-value" = "{signif(p.value, 1)}"),
+             conf_level = .95,
+             gof_map = c("adj.r.squared", "adj.r.squared"),
+             coef_rename = c("stem_dens" = "Stem Density",
+                             "stem_dens:distancefar" = "Stem density : Far from trail"))
+
 
 ```
 
@@ -166,47 +137,39 @@ stemdens <- interaction_plot(SR_veg_model, 'stem_dens', x = stem_dens, y = SR, d
 
 stemdens_dist <- interaction_plot(SR_veg_model, c('stem_dens', 'distance'), colour = distance, x = stem_dens, y = SR, dat = full_data, xlab = 'Stem Density (stems/m2)', ylab = 'Species Richness')
 
-stemdens | stemdens_dist
-
-```
-
-### Shannon
-
-```{r}
-#| label: shan-veg-summary
-
-tar_load(shan_veg_model)
-
-tbl_regression(shan_veg_model, label = list(stemdens = "Stem Density (stems/m2)", distance = "Distance From Trail", 
-																					 `Park.sd__(Intercept)` = "Random Effect: Park (Std Dev)",
-																					 `Residual.sd__(Observation)` = "Random Effect: Residual (Std Dev)"),
-							 pvalue_fun = label_style_pvalue(digits = 2),
-							 tidy_fun = broom.mixed::tidy)
-
-```
-
-```{r}
-#| label: shan-veg-plot
-#| warning: false
-#| message: false
-
 stemdens_s <- interaction_plot(shan_veg_model, 'stem_dens', x = stem_dens, y = Shan, dat = full_data, xlab = 'Stem Density (stems/m2)', ylab = 'Shannon Diversity')
 
 stemdens_dist_s <- interaction_plot(shan_veg_model, c('stem_dens', 'distance'), colour = distance, x = stem_dens, y = Shan, dat = full_data, xlab = 'Stem Density (stems/m2)', ylab = 'Shannon Diversity')
 
-stemdens_s | stemdens_dist_s
+
+(stemdens_s | stemdens_dist_s) / (stemdens | stemdens_dist) + plot_annotation(tag_levels = 'a') + plot_layout(guides = 'collect')
+
+
 ```
+
 
 ## Trail use
 
 The third model includes human activity and the interaction between human activity and distance from trail.
 
-### Species Richness 
 
 ```{r}
 #| label: sr-act-summary
 
 tar_load(SR_act_model)
+tar_load(shan_act_model)
+
+modelsummary(list("Species Richness" = SR_act_model, "Shannon Diversity" = shan_veg_model),
+             fmt = NULL,
+             estimate = "{signif(estimate, 2)}",
+             exponentiate = c(FALSE, FALSE), 
+             statistic = c("CI" = "({signif(conf.low, 2)}, {signif(conf.high, 2)})", 
+                           "t-statistic" =  "{signif(statistic, 2)}", 
+                           "p-value" = "{signif(p.value, 1)}"),
+             conf_level = .95,
+             gof_map = c("adj.r.squared", "adj.r.squared"),
+             coef_rename = c("stem_dens" = "Stem Density",
+                             "stem_dens:distancefar" = "Stem density : Far from trail"))
 
 tbl_regression(SR_act_model, label = list(avg_activity = "Human Activity",
 																					distance = "Distance From Trail", 
@@ -234,7 +197,7 @@ act | act_dist
 ```{r}
 #| label: shan-act-summary
 
-tar_load(shan_act_model)
+
 
 tbl_regression(shan_act_model, label = list(avg_activity = "Human Activit", 
 																						distance = "Distance From Trail", 
