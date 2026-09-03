@@ -76,6 +76,11 @@ c(
   	lmer(Shan ~ avg_activity + avg_activity:distance + (1 | Park), data = full_data)
   ),
 
+  tar_target(
+  	ordination,
+  	create_ordination(full_data)
+  ),
+
   tar_render(
     residuals,
     'graphics/diagnostics.qmd'
