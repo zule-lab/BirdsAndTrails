@@ -147,6 +147,47 @@ stemdens_dist_s <- interaction_plot(shan_veg_model, c('stem_dens', 'distance'), 
 
 ```
 
+```{r}
+#| label: sr-basal-summary
+
+tar_load(SR_basal_model)
+tar_load(shan_basal_model)
+
+
+modelsummary(list("Species Richness" = SR_basal_model, "Shannon Diversity" = shan_basal_model),
+             fmt = NULL,
+             estimate = "{signif(estimate, 2)}",
+             exponentiate = c(FALSE, FALSE), 
+             statistic = c("CI" = "({signif(conf.low, 2)}, {signif(conf.high, 2)})", 
+                           "t-statistic" =  "{signif(statistic, 2)}", 
+                           "p-value" = "{signif(p.value, 1)}"),
+             conf_level = .95,
+             gof_map = c("adj.r.squared", "adj.r.squared"),
+             coef_rename = c("basal" = "Basal Area",
+                             "basal:distancefar" = "Basal area : Far from trail"))
+
+
+```
+
+```{r}
+#| label: sr-basal-plot
+#| warning: false
+#| message: false
+
+basal <- interaction_plot(SR_basal_model, 'basal', x = basal, y = SR, dat = full_data, xlab = 'Basal Area(m2/ha)', ylab = 'Species Richness')
+
+basal_dist <- interaction_plot(SR_basal_model, c('basal', 'distance'), colour = distance, x = basal, y = SR, dat = full_data, xlab = 'Basal Area (m2/ha)', ylab = 'Species Richness')
+
+basal_s <- interaction_plot(shan_basal_model, 'basal', x = basal, y = Shan, dat = full_data, xlab = 'Basal Area (m2/ha)', ylab = 'Shannon Diversity')
+
+basal_dist_s <- interaction_plot(shan_basal_model, c('basal', 'distance'), colour = distance, x = basal, y = Shan, dat = full_data, xlab = 'Basal Area (m2/ha)', ylab = 'Shannon Diversity')
+
+
+(basal_s | basal_dist_s) / (basal | basal_dist) + plot_annotation(tag_levels = 'a') + plot_layout(guides = 'collect')
+
+
+```
+
 
 ## Trail use
 
@@ -159,7 +200,7 @@ The third model includes human activity and the interaction between human activi
 tar_load(SR_act_model)
 tar_load(shan_act_model)
 
-modelsummary(list("Species Richness" = SR_act_model, "Shannon Diversity" = shan_veg_model),
+modelsummary(list("Species Richness" = SR_act_model, "Shannon Diversity" = shan_act_model),
              fmt = NULL,
              estimate = "{signif(estimate, 2)}",
              exponentiate = c(FALSE, FALSE), 
@@ -168,15 +209,8 @@ modelsummary(list("Species Richness" = SR_act_model, "Shannon Diversity" = shan_
                            "p-value" = "{signif(p.value, 1)}"),
              conf_level = .95,
              gof_map = c("adj.r.squared", "adj.r.squared"),
-             coef_rename = c("stem_dens" = "Stem Density",
-                             "stem_dens:distancefar" = "Stem density : Far from trail"))
-
-tbl_regression(SR_act_model, label = list(avg_activity = "Human Activity",
-																					distance = "Distance From Trail", 
-																					 `Park.sd__(Intercept)` = "Random Effect: Park (Std Dev)",
-																					 `Residual.sd__(Observation)` = "Random Effect: Residual (Std Dev)"),
-							 pvalue_fun = label_style_pvalue(digits = 2),
-							 tidy_fun = broom.mixed::tidy)
+             coef_rename = c("avg_activity" = "Human Activity",
+                             "avg_activity:distancefar" = "Human activity : Far from trail"))
 
 ```
 
@@ -189,33 +223,10 @@ act <- interaction_plot(SR_act_model, 'avg_activity', x = avg_activity, y = SR, 
 
 act_dist <- interaction_plot(SR_act_model, c('avg_activity', 'distance'), colour = distance, x = avg_activity, y = SR, dat = full_data, xlab = 'Human Activity (mean number of people/hr)', ylab = 'Species Richness')
 
-act | act_dist
-```
-
-### Shannon
-
-```{r}
-#| label: shan-act-summary
-
-
-
-tbl_regression(shan_act_model, label = list(avg_activity = "Human Activit", 
-																						distance = "Distance From Trail", 
-																					 `Park.sd__(Intercept)` = "Random Effect: Park (Std Dev)",
-																					 `Residual.sd__(Observation)` = "Random Effect: Residual (Std Dev)"),
-							 pvalue_fun = label_style_pvalue(digits = 2),
-							 tidy_fun = broom.mixed::tidy)
-
-```
-
-```{r}
-#| label: shan-act-plot
-#| warning: false
-#| message: false
-
 act_s <- interaction_plot(shan_act_model, 'avg_activity', x = avg_activity, y = Shan, dat = full_data, xlab = 'Human Activity (mean number of people/hr)', ylab = 'Shannon Diversity')
 
 act_dist_s <- interaction_plot(shan_act_model, c('avg_activity', 'distance'), colour = distance, x = avg_activity, y = Shan, dat = full_data, xlab = 'Human Activity (mean number of people/hr)', ylab = 'Shannon Diversity')
 
-act_s | act_dist_s
+
+(act_s | act_dist_s) / (act | act_dist) + plot_annotation(tag_levels = 'a') + plot_layout(guides = 'collect')
 ```

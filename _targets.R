@@ -67,6 +67,16 @@ c(
   ),
 
   tar_target(
+  	SR_basal_model,
+  	lmer(SR ~ basal + basal:distance + (1 | Park), data = full_data)
+  ),
+
+  tar_target(
+  	shan_basal_model,
+  	lmer(Shan ~ basal + basal:distance + (1 | Park), data = full_data)
+  ),
+
+  tar_target(
   	SR_act_model,
   	lmer(SR ~ avg_activity + avg_activity:distance + (1 | Park), data = full_data)
   ),
