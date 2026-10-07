@@ -1,13 +1,22 @@
 ---
-title: "Model Diagnostics"
+title: "Supplementary Materials: Bird diversity and community varies with proximity to trails in urban and peri-urban green spaces"
 format:
   html:
     embed-resources: true
     fig-width: 16
     fig-height: 14
+  docx:
+    fig-width: 12
+    fig-height: 14
 ---
 
-Chloe A. Cull, Mackenzie Guest, Isabella C. Richmond, Ana Morales, Carly D. Ziter, Barbara Frei
+Chloe A. Cull^1^, Mackenzie Guest^1^, Isabella C. Richmond^1^, Ana Morales^2^, Carly D. Ziter^1^, Barbara Frei^1,2^
+
+1 Department of Biology, Concordia University, Montreal, QC, Canada
+
+2 Science and Technology Branch, Environment and Climate Change Canada, Montreal, QC, Canada
+
+**Statement of Ethics Compliance** All details of animal monitoring were approved by Concordia University’s Animal Care Facility (Protocol no. 30017925) and by The Canadian Wildlife Service (Permit no. SC-98).
 
 ```{r}
 #| label: setup
@@ -21,7 +30,7 @@ library(targets)
 tar_source('R')
 ```
 
-# Model Results
+# Supplementary Materials A: Model Equations
 
 ## Model 1: distance from trail + management
 
@@ -43,29 +52,9 @@ $$y_i \sim \alpha_{park} + \beta_0 +  far_i*\beta_{far} + informal_i*\beta_{info
 
 - $\epsilon_i$ represents residual error
 
-### Species Richness
-
-```{r}
-#| label: dist-sr
-
-tar_load(SR_dist_model)
-
-check_model(SR_dist_model)
-```
-
-### Shannon
-
-```{r}
-#| label: dist-shan
-
-tar_load(shan_dist_model)
-
-check_model(shan_dist_model)
-```
-
 ## Model 2: stem density
 
-The models contained both stem density and the interaction between distance to trail and average trail activity:
+The models contained both stem density and the interaction between distance to trail and stem density:
 
 $$y_i \sim \alpha_{park} + \gamma_{distance} + stem \ dens_i*\beta_{stem \ dens} + stem \ dens_i*\beta_{distance} + \epsilon_i$$
 
@@ -81,27 +70,25 @@ $$y_i \sim \alpha_{park} + \gamma_{distance} + stem \ dens_i*\beta_{stem \ dens}
 
 - $\epsilon_i$ represents residual error
 
-### Species Richness
+## Model 3: basal area
 
-```{r}
-#| label: veg-sr
+The models contained both basal area and the interaction between distance to trail and basal area :
 
-tar_load(SR_veg_model)
+$$y_i \sim \alpha_{park} + \gamma_{distance} + basal \ area_i*\beta_{basal \ area} + basal \ area_i*\beta_{distance} + \epsilon_i$$
 
-check_model(SR_veg_model)
-```
+- $y_i$ was modelled as both species richness and Shannon.
 
-### Shannon
+- $\alpha$ and $\gamma$ both represent intercepts, $\alpha$ is used for random effects and $\gamma$ for fixed interaction effects
 
-```{r}
-#| label: veg-shan
+- Park represents the park where the measurements took place
 
-tar_load(shan_veg_model)
+- Distance represents the distance from the trail (i.e., close vs far)
 
-check_model(shan_veg_model)
-```
+- Basal area represents the basal area of the transect
 
-## Model 3: trail activity
+- $\epsilon_i$ represents residual error
+
+## Model 4: trail activity
 
 The models contained both average trail activity and the interaction between distance to trail and average trail activity:
 
@@ -115,11 +102,72 @@ $$y_i \sim \alpha_{park} + \gamma_{distance} + activity_i*\beta_{activity} + act
 
 - Distance represents the distance from the trail (i.e., close vs far)
 
-- Activity represents the average human activity level on the trail 
+- Activity represents the average human activity level on the trail
 
 - $\epsilon_i$ represents residual error
 
-### Species Richness
+
+# Supplementary Materials B: Model Diagnostic Plots 
+
+```{r}
+#| label: dist-sr
+
+tar_load(SR_dist_model)
+
+check_model(SR_dist_model)
+```
+
+Figure B1. Model diagnostic plot where species richness is the response variable and distance to trail and greenspace management type are explanatory variables.
+
+
+```{r}
+#| label: dist-shan
+
+tar_load(shan_dist_model)
+
+check_model(shan_dist_model)
+```
+Figure B2. Model diagnostic plot where Shannon diversity is the response variable and distance to trail and greenspace management type are explanatory variables.
+
+```{r}
+#| label: veg-sr
+
+tar_load(SR_veg_model)
+
+check_model(SR_veg_model)
+```
+Figure B3. Model diagnostic plot where species richness is the response variable and stem density and the interaction between stem density and distance to trail are the explanatory variables.
+
+
+```{r}
+#| label: veg-shan
+
+tar_load(shan_veg_model)
+
+check_model(shan_veg_model)
+```
+Figure B4. Model diagnostic plot where Shannon diversity is the response variable and stem density and the interaction between stem density and distance to trail are the explanatory variables.
+
+
+```{r}
+#| label: bas-sr
+
+tar_load(SR_basal_model)
+
+check_model(SR_basal_model)
+```
+Figure B5. Model diagnostic plot where species richness is the response variable and basal area and the interaction between basal area and distance to trail are the explanatory variables.
+
+
+```{r}
+#| label: bas-shan
+
+tar_load(shan_basal_model)
+
+check_model(shan_basal_model)
+```
+Figure B6. Model diagnostic plot where Shannon diversity is the response variable and basal area and the interaction between basal area and distance to trail are the explanatory variables.
+
 
 ```{r}
 #| label: act-sr
@@ -128,8 +176,7 @@ tar_load(SR_act_model)
 
 check_model(SR_act_model)
 ```
-
-### Shannon
+Figure B7. Model diagnostic plot where speciess richness is the response variable and human activity and the interaction between human activity and distance to trail are the explanatory variables.
 
 ```{r}
 #| label: act-shan
@@ -138,3 +185,16 @@ tar_load(shan_act_model)
 
 check_model(shan_act_model)
 ```
+Figure B8. Model diagnostic plot where Shannon diversity is the response variable and human activity and the interaction between human activity and distance to trail are the explanatory variables.
+
+
+# Supplementary Materials C: Ordination Results
+
+Table C1. Relationship between environmental variables and NMDS ordination space for formal sites. 
+
+```{r}
+#| label: ord-env
+tar_load(env_ordination)
+
+```
+
