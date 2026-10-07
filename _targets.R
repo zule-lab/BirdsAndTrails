@@ -88,7 +88,17 @@ c(
 
   tar_target(
   	ordination,
-  	create_ordination(full_data)
+  	create_ordination(birds_raw)
+  ),
+
+  tar_target(
+  	env_ordination,
+  	int_env(ordination, full_data)
+  ),
+
+  tar_target(
+  	plot_ordination,
+  	ordination_plot(ordination)
   ),
 
   tar_render(

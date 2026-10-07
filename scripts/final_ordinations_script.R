@@ -9,11 +9,11 @@ library(tidyverse)
 library(readr)
 
 
-# Read data on sp at each site 
+# Read data on sp at each site
 ARBO_ORD <- read_csv("~/Desktop/CCs-Thesis/CC-bird-CH2/ARBO_ORD.csv")
 View(ARBO_ORD)
 BDL_ORD <-read_csv("~/Desktop/CCs-Thesis/CC-bird-CH2/BDL_ORD.csv")
-View(BDL_ORD) 
+View(BDL_ORD)
 STNY_ORD <- read_csv("~/Desktop/CCs-Thesis/CC-bird-CH2/STNY_ORD.csv")
 View(STNY_ORD)
 TECH_ORD <- read_csv("~/Desktop/CCs-Thesis/CC-bird-CH2/TECH_ORD.csv")
@@ -64,7 +64,7 @@ formalen = envfit(formal.mds, formalenv, permutations = 999, na.rm = TRUE)
 summary(informalen)
 
 
-# Final Group of Ordination Plots 
+# Final Group of Ordination Plots
 
 # Establishing layout for plots
 layout(matrix(c(1, 2, 3, 4, 5, 5), nrow = 3, byrow = TRUE), heights = c(1, 1, 0.2))
@@ -105,7 +105,7 @@ legend("center", legend = c("Close", "Far"), col = "black", pt.bg = c("lightblue
 
 ##### FORMAL VS INFORMAL
 
-par(mfrow=c(1, 1)) 
+par(mfrow=c(1, 1))
 par(mar = c(5.1, 4.1, 4.1, 2.1))
 
 # Formal Ordination
