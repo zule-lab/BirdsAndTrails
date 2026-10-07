@@ -230,3 +230,8 @@ act_dist_s <- interaction_plot(shan_act_model, c('avg_activity', 'distance'), co
 
 (act_s | act_dist_s) / (act | act_dist) + plot_annotation(tag_levels = 'a') + plot_layout(guides = 'collect')
 ```
+
+
+# Ordination 
+
+![](../graphics/ordination.png)

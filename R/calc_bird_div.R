@@ -22,7 +22,7 @@ calc_bird_div <- function(birds_raw) {
     ) %>%
     replace(is.na(.), 0) %>%
     column_to_rownames('Transect') %>%
-    select(-RWBL)
+    select(-c('RWBL', 'RWBL '))
 
   div_close <- b_close %>%
     mutate(
@@ -43,7 +43,7 @@ calc_bird_div <- function(birds_raw) {
     ) %>%
     replace(is.na(.), 0) %>%
     column_to_rownames('Transect') %>%
-    select(-RWBL)
+  	select(-c('RWBL', 'RWBL '))
 
   div_far <- b_far %>%
     mutate(
