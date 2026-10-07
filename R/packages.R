@@ -23,3 +23,6 @@ library(broom.helpers)
 library(broom.mixed)
 
 library(patchwork)
+
+library(sf)
+library(osmdata)

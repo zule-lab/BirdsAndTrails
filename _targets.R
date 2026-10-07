@@ -36,6 +36,30 @@ c(
     read.csv(!!.x)
   ),
 
+  tar_file_read(
+  	techno,
+  	'input/transects/Technoparc_.kml',
+  	read_sf(!!.x)
+  ),
+
+  tar_file_read(
+  	bdl,
+  	'input/transects/BoisdeLiesse.kml',
+  	read_sf(!!.x)
+  ),
+
+  tar_file_read(
+  	mbo,
+  	'input/transects/MBO_.kml',
+  	read_sf(!!.x)
+  ),
+
+  tar_file_read(
+  	arbo,
+  	'input/transects/Aboretum.kml',
+  	read_sf(!!.x)
+  ),
+
   tar_target(
     bird_div,
     calc_bird_div(birds_raw)
@@ -99,6 +123,11 @@ c(
   tar_target(
   	plot_ordination,
   	ordination_plot(ordination)
+  ),
+
+  tar_target(
+  	plot_map,
+  	create_map(techno, bdl, mbo, arbo)
   ),
 
   tar_render(
