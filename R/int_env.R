@@ -11,6 +11,9 @@ int_env <- function(ordination, full_data){
 		left_join(ordination$dat_inform, ., by = c("Transect", "distance")) %>%
 		select(c(avg_activity, stem_dens))
 
-	arboenv = ARBO_ORD[3:4]
-	arboen = envfit(arbo.mds, arboenv, permutations = 999, na.rm = TRUE)
+	# test env variables
+	ord_form_env <- envfit(ordination$formal, formal_env, permutations = 999, na.rm = T)
+	ord_inform_env <- envfit(ordination$informal, informal_env, permutations = 999, na.rm = T)
+
+	env <- list(ord_form_env, ord_inform_env) %>% setNames(c('formal', 'informal'))
 }
