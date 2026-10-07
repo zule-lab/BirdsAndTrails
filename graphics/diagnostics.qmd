@@ -190,11 +190,21 @@ Figure B8. Model diagnostic plot where Shannon diversity is the response variabl
 
 # Supplementary Materials C: Ordination Results
 
-Table C1. Relationship between environmental variables and NMDS ordination space for formal sites. 
+Table C1. Relationship between environmental variables and NMDS ordination space for formal sites. avg_activity refers to average levels of human activity (# people/hr) on trails and stem_dens refers to the average stem density of trees (# stems/m2).
 
 ```{r}
 #| label: ord-env
+tar_load(ordination)
 tar_load(env_ordination)
+
+env_ordination$formal
+```
+
+Table C2. Relationship between environmental variables and NMDS ordination space for informal sites. avg_activity refers to average levels of human activity (# people/hr) on trails and stem_dens refers to the average stem density of trees (# stems/m2).
+```{r}
+#| label: ord-env-inf
+
+env_ordination$informal
 
 ```
 
