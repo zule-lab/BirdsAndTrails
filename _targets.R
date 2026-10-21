@@ -37,27 +37,9 @@ c(
   ),
 
   tar_file_read(
-  	techno,
-  	'input/transects/Technoparc_.kml',
-  	read_sf(!!.x)
-  ),
-
-  tar_file_read(
-  	bdl,
-  	'input/transects/BoisdeLiesse.kml',
-  	read_sf(!!.x)
-  ),
-
-  tar_file_read(
-  	mbo,
-  	'input/transects/MBO_.kml',
-  	read_sf(!!.x)
-  ),
-
-  tar_file_read(
-  	arbo,
-  	'input/transects/Aboretum.kml',
-  	read_sf(!!.x)
+    bdl,
+    'input/transects/BoisdeLiesse.kml',
+    read_sf(!!.x)
   ),
 
   tar_target(
@@ -81,53 +63,59 @@ c(
   ),
 
   tar_target(
-  	SR_veg_model,
-  	lmer(SR ~ stem_dens + stem_dens:distance + (1 | Park), data = full_data)
+    SR_veg_model,
+    lmer(SR ~ stem_dens + stem_dens:distance + (1 | Park), data = full_data)
   ),
 
   tar_target(
-  	shan_veg_model,
-  	lmer(Shan ~ stem_dens + stem_dens:distance + (1 | Park), data = full_data)
+    shan_veg_model,
+    lmer(Shan ~ stem_dens + stem_dens:distance + (1 | Park), data = full_data)
   ),
 
   tar_target(
-  	SR_basal_model,
-  	lmer(SR ~ basal + basal:distance + (1 | Park), data = full_data)
+    SR_basal_model,
+    lmer(SR ~ basal + basal:distance + (1 | Park), data = full_data)
   ),
 
   tar_target(
-  	shan_basal_model,
-  	lmer(Shan ~ basal + basal:distance + (1 | Park), data = full_data)
+    shan_basal_model,
+    lmer(Shan ~ basal + basal:distance + (1 | Park), data = full_data)
   ),
 
   tar_target(
-  	SR_act_model,
-  	lmer(SR ~ avg_activity + avg_activity:distance + (1 | Park), data = full_data)
+    SR_act_model,
+    lmer(
+      SR ~ avg_activity + avg_activity:distance + (1 | Park),
+      data = full_data
+    )
   ),
 
   tar_target(
-  	shan_act_model,
-  	lmer(Shan ~ avg_activity + avg_activity:distance + (1 | Park), data = full_data)
+    shan_act_model,
+    lmer(
+      Shan ~ avg_activity + avg_activity:distance + (1 | Park),
+      data = full_data
+    )
   ),
 
   tar_target(
-  	ordination,
-  	create_ordination(birds_raw)
+    ordination,
+    create_ordination(birds_raw)
   ),
 
   tar_target(
-  	env_ordination,
-  	int_env(ordination, full_data)
+    env_ordination,
+    int_env(ordination, full_data)
   ),
 
   tar_target(
-  	plot_ordination,
-  	ordination_plot(ordination)
+    plot_ordination,
+    ordination_plot(ordination)
   ),
 
   tar_target(
-  	plot_map,
-  	create_map(techno, bdl, mbo, arbo)
+    plot_map,
+    create_map(bdl)
   ),
 
   tar_render(
