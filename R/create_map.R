@@ -16,10 +16,7 @@ create_map <- function(bdl) {
   allpolys <- st_as_sf(st_union(polys, multipolys)) %>% st_union()
 
   ## Water
-  water <- opq(
-    bbox = c(-74.0788, 45.3414, -73.3894, 45.7224),
-    timeout = 100
-  ) %>%
+  water <- opq(bb) %>%
     add_osm_feature(key = 'natural', value = 'water') %>%
     osmdata_sf()
   mpols <- water$osm_multipolygons
@@ -68,7 +65,7 @@ create_map <- function(bdl) {
   # Single park plot --------------------------------------------------------
 
   # download park boundaries from OSM
-  bdl_osm <- opq('montreal canada', timeout = 100) %>%
+  bdl_osm <- opq('montreal canada') %>%
     add_osm_feature(key = 'boundary', value = 'protected_area') %>%
     osmdata_sf()
 
@@ -97,7 +94,7 @@ create_map <- function(bdl) {
     labs(colour = "") +
     theme(
       panel.border = element_rect(linewidth = 1, fill = NA),
-      panel.background = element_rect(fill = '#ddc48d'),
+      panel.background = element_rect(fill = '#ceb99b'),
       panel.grid = element_blank(),
       axis.text = element_text(size = 11, color = 'black'),
       axis.title = element_blank(),
@@ -108,7 +105,7 @@ create_map <- function(bdl) {
 
   # All ---------------------------------------------------------------------
 
-  arrowA <- data.frame(x1 = 14.75, x2 = 23, y1 = 6, y2 = 8.75)
+  arrowA <- data.frame(x1 = 10.2, x2 = 22, y1 = 8.35, y2 = 8.5)
 
   full <- ggplot() +
     coord_equal(xlim = c(0, 40), ylim = c(0, 20), expand = FALSE) +
@@ -137,7 +134,7 @@ create_map <- function(bdl) {
     theme_void()
 
   ggsave(
-    'graphics/figure_2.png',
+    'graphics/map.png',
     full,
     width = 12,
     height = 14,
