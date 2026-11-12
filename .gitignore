@@ -50,3 +50,5 @@ rsconnect/
 
 /.quarto/
 **/*.quarto_ipynb
+input/parks.zip
+input/land.zip
