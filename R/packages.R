@@ -26,3 +26,4 @@ library(patchwork)
 
 library(sf)
 library(osmdata)
+library(ggspatial)
