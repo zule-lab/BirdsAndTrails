@@ -26,19 +26,38 @@ create_map <- function(bdl) {
   df_spatial$formality <- c('formal', 'informal', 'informal', 'formal')
 
   bbi <- st_bbox(df_spatial)
+  bbi['xmin'] <- bbi['xmin'] - 0.1
+  bbi['xmax'] <- bbi['xmax'] + 0.3
+  bbi['ymin'] <- bbi['ymin'] - 0.1
+  bbi['ymax'] <- bbi['ymax'] + 0.2
 
-  mtl <- ggplot() +
-    geom_sf(fill = '#b1af2f', data = land) +
+  land_c <- st_crop(land, bbi)
+
+  # inset
+  cfg <- configure_inset(
+    shape = shape_rectangle(
+      centre = df_spatial |> filter(parks == "Bois-de-Liesse"),
+      hwidth = 1
+    ),
+    translation = c(20, -4),
+    scale = 3,
+    units = 'km'
+  )
+
+  ggplot() +
+    geom_sf(fill = '#cdcb96', data = land_c) +
     geom_sf(aes(colour = formality), size = 2, data = df_spatial) +
     coord_sf(
       xlim = c(bbi['xmin'] - 0.1, bbi['xmax'] + 0.3),
-      ylim = c(bbi['ymin'] - 0.1, bbi['ymax'] + 0.3)
+      ylim = c(bbi['ymin'] - 0.1, bbi['ymax'] + 0.2)
     ) +
-    scale_colour_manual(values = c("#b36a2f", "#3d3558")) +
+    geom_sf_inset(inset = cfg) +
+    geom_inset_frame(inset = cfg, fill = c(NA, 'white', NA, NA)) +
+    scale_colour_manual(values = c("#b7620f", "#707178")) +
     labs(colour = "") +
     theme(
       panel.border = element_rect(linewidth = 1, fill = NA),
-      panel.background = element_rect(fill = '#bbfae7'),
+      panel.background = element_rect(fill = '#90a1db'),
       panel.grid = element_blank(),
       axis.text = element_blank(),
       axis.title = element_blank(),
@@ -47,6 +66,7 @@ create_map <- function(bdl) {
       plot.background = element_rect(fill = NA, colour = NA),
       legend.position = 'top'
     ) +
+    coord_sf() +
     annotation_scale(location = 'br', style = 'ticks')
 
   # Single park plot --------------------------------------------------------
@@ -63,29 +83,30 @@ create_map <- function(bdl) {
   bba <- st_bbox(parks)
 
   # trails
-  bdl <- read_sf('input/transects/BoisdeLiesse.kml')
   trails <- bdl %>% st_zm() %>% st_cast('LINESTRING')
   l_trails <- trails %>% slice(3:4) %>% mutate(type = 'large trail')
   s_trails <- trails %>% slice(1:2) %>% mutate(type = 'small trail')
   quadrats <- trails %>% slice(5:20) %>% mutate(type = 'transects')
   trails <- rbind(l_trails, s_trails, quadrats)
 
-  ggplot() +
+  park <- ggplot() +
     #geom_sf(fill = '#99acc3', data = land) +
-    geom_sf(data = parks, fill = '#c2d6a4') +
+    geom_sf(data = parks, fill = '#5a5a2e') +
     geom_sf(data = trails, aes(colour = type)) +
     coord_sf(
       xlim = c(bba['xmin'], bba['xmax']),
       ylim = c(bba['ymin'], bba['ymax'])
     ) +
-    scale_colour_met_d(name = 'Troy') +
     labs(colour = "") +
+    scale_colour_manual(values = c('#ddccf5', '#d8f8f0', '')) +
     theme(
       panel.border = element_rect(linewidth = 1, fill = NA),
-      panel.background = element_rect(fill = '#ceb99b'),
+      panel.background = element_rect(fill = '#ddd999'),
       panel.grid = element_blank(),
-      axis.text = element_text(size = 11, color = 'black'),
+      axis.text = element_blank(),
       axis.title = element_blank(),
+      axis.ticks = element_blank(),
+      legend.key = element_rect(fill = NA),
       plot.background = element_rect(fill = NA, colour = NA),
       legend.position = 'top'
     ) +
@@ -93,33 +114,7 @@ create_map <- function(bdl) {
 
   # All ---------------------------------------------------------------------
 
-  arrowA <- data.frame(x1 = 10.2, x2 = 22, y1 = 8.35, y2 = 8.5)
-
-  full <- ggplot() +
-    coord_equal(xlim = c(0, 40), ylim = c(0, 20), expand = FALSE) +
-    annotation_custom(
-      ggplotGrob(mtl),
-      xmin = 0,
-      xmax = 20,
-      ymin = 0,
-      ymax = 20
-    ) +
-    annotation_custom(
-      ggplotGrob(boisdeliesse),
-      xmin = 20,
-      xmax = 40,
-      ymin = 3,
-      ymax = 18
-    ) +
-    geom_segment(
-      aes(x = x1, y = y1, xend = x2, yend = y2),
-      data = arrowA,
-      linewidth = 1,
-      arrow = arrow(),
-      lineend = "round"
-    ) +
-
-    theme_void()
+  mtl | park
 
   ggsave(
     'graphics/map.png',
