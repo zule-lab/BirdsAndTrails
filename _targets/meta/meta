@@ -18,13 +18,26 @@ shan_act_model|stem|f1a85b63578aca2c|f4770833a8d4eda1|a67b801aac77f6ed|69030211|
 shan_dist_model|stem|8a7deace275f2f9c|742ae39f3cf89fb3|a67b801aac77f6ed|-1484643136||t20733.6603290785s|s63952b|63952|qs|local|vector|||0.061||
 shan_basal_model|stem|8efd88ed50740c85|7d565f7c1d0ea7c1|a67b801aac77f6ed|-322949848||t20733.6603302822s|s64316b|64316|qs|local|vector|||0.058||
 SR_basal_model|stem|92cbb238a152119e|d7955d3fe150863c|a67b801aac77f6ed|480358123||t20733.6603313008s|s64373b|64373|qs|local|vector|||0.06||
-residuals|stem|ff98a648d3b0c238|5a3ed58a8379f5c6|31e0af5fc1f38658|-2143804110|graphics/diagnostics.html*graphics/diagnostics.qmd|t20733.6604945422s|s630245b|630245|file|local|vector|||14.043||
 results|stem|2aa067b9c6759eda|a33001799e55f079|2d1b52aae25884a6|-322906963|output/results.html*output/results.qmd|t20733.6606488947s|s1828408b|1828408|file|local|vector|||13.254||
-create_ordination|function|33d8f0937cf3772f
-int_env|function|62c096201e267968
+ordination|stem|78d76a76b55e4f20|18572068e8c764e5|9754e9f9673567fb|293788068||t20733.6961750536s|s8037b|8037|qs|local|vector|||0.64||
+plot_ordination|stem|a6666e26bc0c4548|e93354f6f74a4107|56b4caf57a42f1e9|-1772445726||t20733.696179637s|s111b|111|qs|local|vector|||0.342||
+env_ordination|stem|d31ea528dcdba901|0fc8c4612800505c|ac43768ce8070729|874637476||t20733.722740706s|s1072b|1072|qs|local|vector|||0.286||
+residuals|stem|050fd68323515754|16e788c1a1daa31c|6bce4ade97fea037|-2143804110|graphics/diagnostics.html*graphics/diagnostics.qmd|t20733.7249201121s|s638134b|638134|file|local|vector|||18.803||
+mbo_file|stem|df2e58289f200549|a835e6d45d733880|2c530c1562a7fbd1|-2000056791|input/transects/MBO_.kml|t20719.839439161s|s9305b|9305|file|local|vector|||0.001||
+techno_file|stem|d84a4409a1b5bbf0|ef401f3e928b92c8|2c530c1562a7fbd1|-10492137|input/transects/Technoparc_.kml|t20719.8407196691s|s7184b|7184|file|local|vector|||0||
+bdl_file|stem|4262ac65ee030987|81b9d314206b5c0b|2c530c1562a7fbd1|1332445196|input/transects/BoisdeLiesse.kml|t20719.8407124006s|s8067b|8067|file|local|vector|||0||
+arbo_file|stem|732ba4426576854a|84fdb7418d8e03fd|2c530c1562a7fbd1|429403321|input/transects/Aboretum.kml|t20719.8407031414s|s9753b|9753|file|local|vector|||0.001||
+mbo|stem|3ba0d6773796e439|9fd1dacfcd2a6ca7|2414c46abf917dff|-823316340||t20733.7391413976s|s2648b|2648|qs|local|vector|||0.012||
+techno|stem|8ef776db1581ba15|15ccdfc4ea805f73|c7bbd85500526e7e|515956136||t20733.7391421383s|s1995b|1995|qs|local|vector|||0.004||
+bdl|stem|e70fb0e32ad5ebc1|7dfe7a7205291a8f|8f835a5bff0f66f7|-1390004042||t20733.7391427865s|s2352b|2352|qs|local|vector|||0.004||
+arbo|stem|2c396969cc2cc224|a93c00ee8e9261f1|3c4baf55f6293543|-1280871933||t20733.739143018s|s2951b|2951|qs|local|vector|||0.004||
+create_ordination|function|950459ed160e6041
+int_env|function|4063d32eb74f512f
 calc_bird_div|function|4b63e9a9b748c6b3
 replace_string|function|7dc8e7823b30aa8c
+create_map|function|a2e53ec3688e5420
 interaction_plot|function|7c4e941f678b7bd6
+.Random.seed|object|a6fce23f63eb084a
+ordination_plot|function|1eca15f95e290a0d
 calc_full_data|function|f5f571005e62f0d4
-ordination|stem|78d76a76b55e4f20|18572068e8c764e5|3cae9ececed18d69|293788068||t20733.6822967203s|s8037b|8037|qs|local|vector|||1.008||
-env_ordination|stem|cd46c580dcb72f3f|d6eba88741653bc7|4d7eaac862642689|874637476||t20733.660331486s||64|qs|local|vector|||0.013||object 'ARBO_ORD' not found
+plot_map|stem|cd46c580dcb72f3f|ee178e06db297b8d|00075e7c10f9b46d|-1956203429||t20733.7391432494s||64|qs|local|vector|||25.621||HTTP 502 Bad Gateway.
